@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "161925875113",
+    "project_id": "freshsify-56b5c",
+    "storage_bucket": "freshsify-56b5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161925875113:android:7030819708fb8e0a3d70b8",
+        "android_client_info": {
+          "package_name": "com.freshsify.freshsify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161925875113-e2gi8upfsss8bclvg32cdhdlau93qfcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcfqUiAMxuJvYYfmRzIv9ZTO86GoKhn_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161925875113-e2gi8upfsss8bclvg32cdhdlau93qfcj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
