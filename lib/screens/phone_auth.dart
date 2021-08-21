@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
-class PhoneAuth extends StatelessWidget {
+class PhoneAuth extends StatefulWidget {
+  @override
+  _PhoneAuthState createState() => _PhoneAuthState();
+}
+
+class _PhoneAuthState extends State<PhoneAuth> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  var isLoading = false;
+  String verificationId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +52,35 @@ class PhoneAuth extends StatelessWidget {
                   onPressed: () async {
                     await _auth.verifyPhoneNumber(
                       phoneNumber: route.toString(),
-                      verificationCompleted: (phoneAuthCredential) async {},
-                      verificationFailed: (verificationFailed) async {},
-                      codeSent: (verificationId, resendingToken) async {},
-                      codeAutoRetrievalTimeout: (verificationId) async {},
+                      verificationCompleted: (phoneAuthCredential) async {
+                        // Provider.of<Auth>(context, listen: false)
+                        //     .SignInPhoneAuthCredentials(phoneAuthCredential);
+                      },
+                      verificationFailed: (FirebaseAuthException e) async {
+                        final snackbar =
+                            SnackBar(content: Text('${e.message}'));
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+                        // print(e.message);
+                      },
+                      codeSent: (verificationId, resendingToken) async {
+                        setState(() {
+                          this.verificationId = verificationId;
+                        });
+                        Navigator.of(context)
+                            .pushNamed('/verify', arguments: verificationId);
+                      },
+                      codeAutoRetrievalTimeout: (verificationId) async {
+                        setState(() {
+                          this.verificationId = verificationId;
+                        });
+                      },
+                      timeout: Duration(
+                        seconds: 120,
+                      ),
                     );
+
                     Navigator.of(context).pushNamed('/verify');
                   },
                   child: Text('Verify'),

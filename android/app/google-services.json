@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:161925875113:android:7030819708fb8e0a3d70b8",
+        "mobilesdk_app_id": "1:161925875113:android:bc72a44cf9e599523d70b8",
         "android_client_info": {
-          "package_name": "com.freshsify.freshsify"
+          "package_name": "com.example.freshsify"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "161925875113-e2gi8upfsss8bclvg32cdhdlau93qfcj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "161925875113-e1alts0d7h7du0mfois3rmia7kgnecre.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.freshsify.freshsify"
+              }
             }
           ]
         }

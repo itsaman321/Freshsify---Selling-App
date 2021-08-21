@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
+// ignore: must_be_immutable
 class OtpVerify extends StatelessWidget {
-  const OtpVerify({Key? key}) : super(key: key);
+  TextEditingController otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final routeArg = ModalRoute.of(context)!.settings.arguments.toString();
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 249, 252, 1.0),
       appBar: AppBar(
@@ -32,14 +38,25 @@ class OtpVerify extends StatelessWidget {
               ],
             ),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  otpBox(context),
-                  otpBox(context),
-                  otpBox(context),
-                  otpBox(context),
-                ],
+              Container(
+                height: 70,
+                width: double.infinity,
+                child: TextField(
+                  controller: otpController,
+                  keyboardType: TextInputType.number,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                ),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 0.1),
+                    borderRadius: BorderRadius.circular(10)),
               ),
               Container(
                   margin: EdgeInsets.symmetric(vertical: 20),
@@ -51,7 +68,15 @@ class OtpVerify extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                         Theme.of(context).primaryColor),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    PhoneAuthCredential phoneAuthCredential =
+                        PhoneAuthProvider.credential(
+                            verificationId: routeArg,
+                            smsCode: otpController.text);
+
+                    Provider.of<Auth>(context,listen: false)
+                        .SignInPhoneAuthCredentials(context,phoneAuthCredential);
+                  },
                   child: Text('Submit'),
                 ),
               ),
@@ -76,28 +101,4 @@ class OtpVerify extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget otpBox(
-  BuildContext ctx,
-) {
-  return SizedBox(
-    width: 70,
-    height: 70,
-    child: Container(
-      child: TextField(
-        keyboardType: TextInputType.number,
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-        ),
-      ),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          border: Border.all(width: 0.1),
-          borderRadius: BorderRadius.circular(10)),
-    ),
-  );
 }

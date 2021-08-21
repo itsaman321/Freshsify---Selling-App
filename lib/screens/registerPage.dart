@@ -13,6 +13,7 @@ class Register extends StatelessWidget {
     final dob = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(247, 249, 252, 1.0),
       appBar: AppBar(
         elevation: 0,
@@ -142,17 +143,38 @@ class Register extends StatelessWidget {
                           phoneNumber.text != '' &&
                           address.text != '' &&
                           dob.text != '') {
-                        await Provider.of<Auth>(context, listen: false)
-                            .registerUser(
-                                fullName.text,
-                                email.text,
-                                password.text,
-                                phoneNumber.text,
-                                address.text,
-                                dob.text);
+                        final resgisterStatus =
+                            await Provider.of<Auth>(context, listen: false)
+                                .registerUser(
+                                    fullName.text,
+                                    email.text,
+                                    password.text,
+                                    phoneNumber.text,
+                                    address.text,
+                                    dob.text);
+                        if (resgisterStatus == 0) {
+                          SnackBar snapBar = SnackBar(
+                            content: Row(
+                              children: [
+                                Icon(Icons.warning),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text('Account Already Exists !'),
+                              ],
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snapBar);
+                        } else {
+                          AlertDialog(
+                            content: Container(
+                              child: Text('Success'),
+                            ),
+                          );
 
-                        Navigator.of(context).pushNamed('/phoneauth',
-                            arguments: phoneNumber.text);
+                          Navigator.of(context).pushNamed('/phoneauth',
+                              arguments: phoneNumber.text);
+                        }
                       } else {
                         SnackBar snapBar = SnackBar(
                             content: Row(
