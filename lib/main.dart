@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../providers/category.dart';
 import './providers/auth.dart';
 import './screens/registerPage.dart';
 import './screens/phone_auth.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Auth(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CategoryProvider(),
         ),
       ],
       child: MaterialApp(
