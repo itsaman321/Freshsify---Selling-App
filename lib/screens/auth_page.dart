@@ -73,10 +73,10 @@ class AuthPage extends StatelessWidget {
                             top: 14, bottom: 14, left: 50, right: 50)),
                   ),
                   onPressed: () {
-                     Navigator.of(context).pushNamed('/register');
+                     Navigator.of(context).pushNamed('/homepage');
                   },
                   child: Text(
-                    'Sign Up',
+                    'Skip',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),

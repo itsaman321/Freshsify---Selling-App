@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/auth.dart';
+import 'dart:convert';
 
 class PhoneAuth extends StatefulWidget {
   @override
@@ -53,6 +55,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
                     await _auth.verifyPhoneNumber(
                       phoneNumber: route.toString(),
                       verificationCompleted: (phoneAuthCredential) async {
+                        
+
                         // Provider.of<Auth>(context, listen: false)
                         //     .SignInPhoneAuthCredentials(phoneAuthCredential);
                       },
