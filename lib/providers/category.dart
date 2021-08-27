@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Category {
   final String id;
@@ -9,18 +11,26 @@ class Category {
 }
 
 class CategoryProvider with ChangeNotifier {
-
-  List<Category> _categories = [
-    Category(id: 'c1', name: 'Fish Zone', imageUrl: 'https://thumbs.dreamstime.com/b/isolated-fish-icon-logo-vector-design-silhouette-white-background-vector-fish-logo-icon-design-106628756.jpg'),
-    Category(id: 'c2', name: 'Poultry ', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGFmCiNZaU6jRsNEKtNr0rcpvnMX9V0iUURw&usqp=CAU'),
-    Category(id: 'c3', name: 'Tender Meat', imageUrl: 'https://thumbs.dreamstime.com/b/piece-meat-beef-icon-isometric-d-style-isolated-white-background-food-symbol-83177703.jpg'),
-    Category(id: 'c4', name: 'Freshly Cut', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI9XtACiCF-Nk5he9zZrQ7ivEpD0KTXxc4PA&usqp=CAU'),
-    Category(id: 'c5', name: 'Combos', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsm89AB0Oeh_ujOpAmjUQVkohbxujq6oUAjA&usqp=CAU'),
-  ] ;
+  List<Category> _categories = [];
 
   List<Category> get categories {
-    return _categories ;
+    return _categories;
   }
 
-
+  Future getCategory() async {
+    final url = Uri.parse('http://freshsify.com/freshsify/getCategory.php');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final categoryData = json.decode(response.body);
+      if (_categories.length == 0) {
+        categoryData.forEach((e) {
+          _categories.add(
+              Category(id: e['id'], name: e['name'], imageUrl: e['img_dir']));
+        });
+      } else {
+        return;
+      }
+      print(_categories);
+    }
+  }
 }

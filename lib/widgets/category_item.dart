@@ -10,20 +10,29 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black26),
-          borderRadius: BorderRadius.circular(5)),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            height: 80,
-            width: 80,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(242, 242, 242, 1),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            height: 60,
+            width: 60,
             child: Image.network(
               imageUrl,
               fit: BoxFit.contain,
             ),
           ),
-          Text(name),
+          Text(name)
         ],
       ),
     );

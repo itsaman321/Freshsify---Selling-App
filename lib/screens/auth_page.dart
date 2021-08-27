@@ -73,7 +73,7 @@ class AuthPage extends StatelessWidget {
                             top: 14, bottom: 14, left: 50, right: 50)),
                   ),
                   onPressed: () {
-                     Navigator.of(context).pushNamed('/homepage');
+                     Navigator.of(context).pushReplacementNamed('/homepage');
                   },
                   child: Text(
                     'Skip',

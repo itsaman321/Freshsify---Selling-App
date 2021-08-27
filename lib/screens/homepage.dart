@@ -35,34 +35,40 @@ class _HomepageState extends State<Homepage> {
     final categories = Provider.of<CategoryProvider>(context).categories;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(247, 249, 252, 1),
+      appBar: AppBar(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         unselectedIconTheme: IconThemeData(color: Colors.black26),
         selectedIconTheme: IconThemeData(
           color: Color.fromRGBO(249, 100, 0, 1),
         ),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         iconSize: 30,
         selectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(''),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
-            title: Text(''),
+            label: 'Cart',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text(''),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.phone),
-            title: Text(''),
+            label: 'Phone',
           ),
         ],
       ),
