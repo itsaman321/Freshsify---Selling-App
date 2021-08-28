@@ -40,13 +40,14 @@ class _MainHomeState extends State<MainHome> {
               ),
             )
           : Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(horizontal: 5),
               height: MediaQuery.of(context).size.height,
               child: ListView(
                 primary: true,
                 // shrinkWrap: true,
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
                     child: CarouselSlider(
                       options: CarouselOptions(height: 150),
                       items: [1, 2, 3, 4, 5].map((i) {
