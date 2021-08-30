@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Quicksand",
           textTheme: TextTheme(
             headline1: TextStyle(
-                fontSize: 30, fontWeight: FontWeight.w700, color: Colors.black),
+                fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black),
             headline2: TextStyle(fontSize: 15),
           ),
           iconTheme: IconThemeData(

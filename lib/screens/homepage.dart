@@ -26,8 +26,10 @@ class _HomepageState extends State<Homepage> {
   List<Widget> widgets = [
     MainHome(),
     Cart(),
-    ProfilePage(),
     ContactPage(),
+    
+    MainHome(),
+    ProfilePage(),
   ];
 
   @override
@@ -36,7 +38,6 @@ class _HomepageState extends State<Homepage> {
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 249, 252, 1),
-      appBar: AppBar(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
@@ -59,10 +60,6 @@ class _HomepageState extends State<Homepage> {
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorite',
           ),
@@ -70,9 +67,15 @@ class _HomepageState extends State<Homepage> {
             icon: Icon(Icons.phone),
             label: 'Phone',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
-      body: widgets[_selectedIndex],
+      body: SafeArea(
+        child: widgets[_selectedIndex],
+      ),
     );
   }
 }

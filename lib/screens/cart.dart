@@ -19,8 +19,7 @@ class Cart extends StatelessWidget {
                   children: [
                     Text(
                       'Items in Cart',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                       style: Theme.of(context).textTheme.headline1,
                     ),
                     SizedBox(
                       height: 14,

@@ -37,7 +37,6 @@ class Auth with ChangeNotifier {
 
     final authCredential;
     try {
-
       final prefs = await SharedPreferences.getInstance();
       final user = json.encode(registerData);
 
@@ -55,5 +54,11 @@ class Auth with ChangeNotifier {
       var snackbar = SnackBar(content: Text(e.message.toString()));
       ScaffoldMessenger.of(ctx).showSnackBar(snackbar);
     }
+  }
+
+  Future logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('user');
+    registerData = {};
   }
 }
