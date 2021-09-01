@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
+  final String id;
+  final String title;
+  final String imageUrl;
+  final String description;
+  final String isfavorite;
+
+  ProductItem(
+      {required this.id,
+      required this.title,
+      required this.imageUrl,
+      required this.description,
+      required this.isfavorite});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -8,7 +21,6 @@ class ProductItem extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            
             borderRadius: BorderRadius.circular(5),
             boxShadow: [
               BoxShadow(
@@ -23,10 +35,12 @@ class ProductItem extends StatelessWidget {
             children: [
               Container(
                 width: 160,
-                child: Image.network(
-                  'https://i.pinimg.com/originals/ed/64/a8/ed64a82cc8de3a46b2567d8a0074a18a.jpg',
-                  width: 160,
-                  fit: BoxFit.cover,
+                height: 160,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: NetworkImage(imageUrl),
+                  ),
                 ),
               ),
               Container(
@@ -37,12 +51,13 @@ class ProductItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Food',
+                      title,
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      'Address the nation',
+                      description,
                       style: TextStyle(fontSize: 10),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

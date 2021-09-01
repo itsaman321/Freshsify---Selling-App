@@ -10,6 +10,7 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -32,7 +33,7 @@ class CategoryItem extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          Text(name)
+          Text(name),
         ],
       ),
     );

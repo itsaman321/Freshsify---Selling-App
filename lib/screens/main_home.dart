@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshsify/providers/category.dart';
+import 'package:freshsify/providers/products.dart';
 import 'package:freshsify/widgets/category_item.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ class MainHome extends StatefulWidget {
 
 class _MainHomeState extends State<MainHome> {
   List categories = [];
+  List products = [];
+  List bestSeller = [];
   var isLoading = true;
   @override
   void didChangeDependencies() async {
@@ -23,6 +26,9 @@ class _MainHomeState extends State<MainHome> {
     await Provider.of<CategoryProvider>(context, listen: false).getCategory();
     categories =
         Provider.of<CategoryProvider>(context, listen: false).categories;
+    await Provider.of<Products>(context, listen: false).getProducts();
+    bestSeller = Provider.of<Products>(context, listen: false).bestSellerItems;
+
     setState(() {
       isLoading = false;
     });
@@ -32,6 +38,7 @@ class _MainHomeState extends State<MainHome> {
   @override
   Widget build(BuildContext context) {
     final categories = Provider.of<CategoryProvider>(context).categories;
+    products = Provider.of<Products>(context, listen: false).items;
     return SafeArea(
       child: isLoading
           ? Center(
@@ -83,21 +90,27 @@ class _MainHomeState extends State<MainHome> {
                       ),
                     ),
                   ),
-                  GridView.builder(
-                    padding: EdgeInsets.all(25),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
+                  Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      // padding: EdgeInsets.all(25),
+                      // shrinkWrap: true,
+                      // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      //   crossAxisCount: 3,
+                      //   crossAxisSpacing: 15,
+                      //   mainAxisSpacing: 15,
+                      // ),
+                      itemBuilder: (ctx, index) {
+                        return CategoryItem(
+                            id: categories[index].id,
+                            name: categories[index].name,
+                            imageUrl: categories[index].imageUrl);
+                      },
+                      itemCount: categories.length,
                     ),
-                    itemBuilder: (ctx, index) {
-                      return CategoryItem(
-                          id: categories[index].id,
-                          name: categories[index].name,
-                          imageUrl: categories[index].imageUrl);
-                    },
-                    itemCount: categories.length,
                   ),
                   Container(
                     child: Text(
@@ -108,15 +121,73 @@ class _MainHomeState extends State<MainHome> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
-                    height: 170,
+                    height: 225,
+                    color: Color.fromRGBO(247, 249, 252, 1),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
-                        return ProductItem();
+                        return ProductItem(
+                          id: bestSeller[index].id,
+                          title: bestSeller[index].title,
+                          imageUrl: bestSeller[index].imageUrl,
+                          description: bestSeller[index].description,
+                          isfavorite: bestSeller[index].isFavorite.toString(),
+                        );
                       },
-                      itemCount: 10,
+                      itemCount: bestSeller.length,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Text(
+                          'All Products',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          'View All',
+                          style: TextStyle(
+                            color: Color.fromRGBO(249, 100, 0, 1),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 225,
+                    color: Color.fromRGBO(247, 249, 252, 1),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (ctx, index) {
+                        return ProductItem(
+                          id: products[index].id,
+                          title: products[index].title,
+                          imageUrl: products[index].imageUrl,
+                          description: products[index].description,
+                          isfavorite: products[index].isFavorite.toString(),
+                        );
+                      },
+                      itemCount: products.length,
                     ),
                   ),
                 ],
