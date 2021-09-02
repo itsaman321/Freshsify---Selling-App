@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import '../providers/cart.dart';
+import 'package:provider/provider.dart';
 
 class CartItem extends StatelessWidget {
-  
+  final String id;
+
+  final String prodId;
+  final String prodImage;
+  final String title;
+  final int quantity;
+  final double price;
+
+  CartItem(
+      {required this.id,
+      required this.prodId,
+      required this.prodImage,
+      required this.title,
+      required this.quantity,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +36,10 @@ class CartItem extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(prodImage),
+                    fit: BoxFit.cover,
+                  ),
                   color: Colors.amber,
                   borderRadius: BorderRadius.circular(5),
                   boxShadow: [
@@ -40,7 +60,7 @@ class CartItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Product Name',
+                      title,
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                     RichText(
@@ -49,7 +69,7 @@ class CartItem extends StatelessWidget {
                         style: TextStyle(color: Colors.black87),
                         children: const <TextSpan>[
                           TextSpan(
-                            text: '120kg',
+                            text: '120',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(249, 100, 0, 1),
@@ -70,34 +90,48 @@ class CartItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      child: Text(
-                        '-',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w700),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(100),
+                    InkWell(
+                      onTap: () {
+                        Provider.of<Cart>(context, listen: false)
+                            .decreaseQuanity(prodId);
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Text(
+                          '-',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w700),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
                     ),
                     Container(
-                      child: Text('1'),
+                      child: Text(
+                        quantity.toString(),
+                      ),
                       padding: EdgeInsets.symmetric(horizontal: 5),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      child: Text(
-                        '+',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w700),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(100),
+                    InkWell(
+                      onTap: () {
+                        Provider.of<Cart>(context, listen: false)
+                            .increaseQuanity(prodId);
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Text(
+                          '+',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w700),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
                       ),
                     ),
                   ],

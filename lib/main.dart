@@ -10,6 +10,7 @@ import './screens/otp_verify.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './providers/products.dart';
+import './providers/cart.dart' show Cart;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Auth(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
         ),
         ChangeNotifierProvider(
           create: (context) => Products(),

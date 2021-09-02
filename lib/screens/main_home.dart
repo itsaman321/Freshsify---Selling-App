@@ -18,27 +18,42 @@ class _MainHomeState extends State<MainHome> {
   List products = [];
   List bestSeller = [];
   var isLoading = true;
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () async {
+      if (categories.isEmpty && products.isEmpty && bestSeller.isEmpty) {
+        setState(() {
+          isLoading = true;
+        });
+        await Provider.of<CategoryProvider>(context, listen: false)
+            .getCategory();
+        categories =
+            Provider.of<CategoryProvider>(context, listen: false).categories;
+        await Provider.of<Products>(context, listen: false).getProducts();
+
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() async {
-    setState(() {
-      isLoading = true;
-    });
-    await Provider.of<CategoryProvider>(context, listen: false).getCategory();
-    categories =
-        Provider.of<CategoryProvider>(context, listen: false).categories;
-    await Provider.of<Products>(context, listen: false).getProducts();
-    bestSeller = Provider.of<Products>(context, listen: false).bestSellerItems;
-
-    setState(() {
-      isLoading = false;
-    });
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final categories = Provider.of<CategoryProvider>(context).categories;
+    categories = Provider.of<CategoryProvider>(context).categories;
     products = Provider.of<Products>(context, listen: false).items;
+    bestSeller = Provider.of<Products>(context, listen: false).bestSellerItems;
     return SafeArea(
       child: isLoading
           ? Center(
@@ -126,7 +141,7 @@ class _MainHomeState extends State<MainHome> {
                   ),
                   Container(
                     height: 225,
-                    color: Color.fromRGBO(247, 249, 252, 1),
+                    color: Colors.white,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -135,6 +150,7 @@ class _MainHomeState extends State<MainHome> {
                           id: bestSeller[index].id,
                           title: bestSeller[index].title,
                           imageUrl: bestSeller[index].imageUrl,
+                          price: bestSeller[index].price,
                           description: bestSeller[index].description,
                           isfavorite: bestSeller[index].isFavorite.toString(),
                         );
@@ -174,7 +190,7 @@ class _MainHomeState extends State<MainHome> {
                   ),
                   Container(
                     height: 225,
-                    color: Color.fromRGBO(247, 249, 252, 1),
+                    color: Colors.white,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -183,6 +199,7 @@ class _MainHomeState extends State<MainHome> {
                           id: products[index].id,
                           title: products[index].title,
                           imageUrl: products[index].imageUrl,
+                          price: products[index].price,
                           description: products[index].description,
                           isfavorite: products[index].isFavorite.toString(),
                         );

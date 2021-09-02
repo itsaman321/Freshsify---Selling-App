@@ -25,7 +25,7 @@ class _HomepageState extends State<Homepage> {
 
   List<Widget> widgets = [
     MainHome(),
-    Cart(),
+    CartPage(),
     ContactPage(),
     
     MainHome(),
@@ -37,7 +37,7 @@ class _HomepageState extends State<Homepage> {
     final categories = Provider.of<CategoryProvider>(context).categories;
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(247, 249, 252, 1),
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
