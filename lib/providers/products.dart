@@ -68,6 +68,10 @@ class Products extends ChangeNotifier {
     return [..._items];
   }
 
+  Product getSingleProduct(String prodId) {
+    return _items.singleWhere((element) => element.id == prodId);
+  }
+
   bool boolResult(double value) {
     if (value == 1) {
       return true;
@@ -90,7 +94,7 @@ class Products extends ChangeNotifier {
             Product(
               id: e['id'],
               title: e['title'],
-              price:double.parse(e['price']),
+              price: double.parse(e['price']),
               category: e['category_id'],
               description: e['description'],
               imageUrl: e['imageurl'],

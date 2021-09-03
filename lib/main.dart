@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './screens/product_page.dart';
 import '../providers/category.dart';
 import './providers/auth.dart';
 import './screens/registerPage.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           '/phoneauth': (context) => PhoneAuth(),
           '/verify': (context) => OtpVerify(),
           '/register': (context) => Register(),
+          '/productpage': (context) => ProductPage(),
         },
       ),
     );
