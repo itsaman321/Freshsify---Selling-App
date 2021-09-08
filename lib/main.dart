@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freshsify/providers/orders_payment.dart';
+
 import 'package:freshsify/screens/product_display.dart';
 import 'package:freshsify/screens/sub_category.dart';
 import './screens/product_page.dart';
@@ -31,9 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => PaymentGateway(),
-        ),
+        
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),

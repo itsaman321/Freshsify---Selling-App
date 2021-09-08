@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:freshsify/providers/category.dart';
 import 'package:freshsify/screens/main_home.dart';
-import 'package:freshsify/widgets/category_item.dart';
+
 import 'package:provider/provider.dart';
 import './cart.dart';
 import './profile.dart';
@@ -34,7 +34,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = Provider.of<CategoryProvider>(context).categories;
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
