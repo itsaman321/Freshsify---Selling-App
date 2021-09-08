@@ -74,28 +74,14 @@ class OtpVerify extends StatelessWidget {
                             verificationId: routeArg,
                             smsCode: otpController.text);
 
-                    Provider.of<Auth>(context,listen: false)
-                        .SignInPhoneAuthCredentials(context,phoneAuthCredential);
+                    Provider.of<Auth>(context, listen: false)
+                        .SignInPhoneAuthCredentials(
+                            context, phoneAuthCredential);
                   },
                   child: Text('Submit'),
                 ),
               ),
             ]),
-            RichText(
-              text: TextSpan(
-                text: 'You don’t have an account?',
-                style: TextStyle(color: Colors.black87),
-                children: const <TextSpan>[
-                  TextSpan(
-                    text: ' Sign Up',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(249, 100, 0, 1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

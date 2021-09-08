@@ -22,8 +22,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
 
     return Scaffold(
       // backgroundColor: Color.fromRGBO(247, 249, 252, 1),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: Theme.of(context).iconTheme,
+      ),
       body: Container(
-        color: Color.fromRGBO(247, 249, 252, 1),
+        color: Colors.white,
         padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,8 +60,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
                     await _auth.verifyPhoneNumber(
                       phoneNumber: route.toString(),
                       verificationCompleted: (phoneAuthCredential) async {
-                        
-
                         // Provider.of<Auth>(context, listen: false)
                         //     .SignInPhoneAuthCredentials(phoneAuthCredential);
                       },
@@ -91,21 +94,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
                 ),
               ),
             ]),
-            RichText(
-              text: TextSpan(
-                text: 'You don’t have an account?',
-                style: TextStyle(color: Colors.black87),
-                children: const <TextSpan>[
-                  TextSpan(
-                    text: ' Sign Up',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(249, 100, 0, 1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

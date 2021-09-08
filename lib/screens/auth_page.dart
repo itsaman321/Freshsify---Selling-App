@@ -27,10 +27,11 @@ class AuthPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.network(
-                      'https://img.freepik.com/free-vector/delivery-man-riding-red-scooter-illustration_9845-14.jpg?size=338&ext=jpg',
-                      width: 250,
+                    Image.asset(
+                      'assets/img/delivery.png',
+                      width: 200,
                     ),
+                    Image.asset('assets/icon/logo.png',width: 70,),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 30),
                       child: Text(
@@ -97,7 +98,7 @@ class AuthPage extends StatelessWidget {
                    Navigator.of(context).pushNamed('/register');
                   },
                   child: Text(
-                    'Sign In',
+                    'Sign Up',
                     style: TextStyle(
                         fontSize: 18, color: Theme.of(context).primaryColor),
                   ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freshsify/providers/orders_payment.dart';
+import 'package:freshsify/screens/product_display.dart';
+import 'package:freshsify/screens/sub_category.dart';
 import './screens/product_page.dart';
 import '../providers/category.dart';
 import './providers/auth.dart';
@@ -27,6 +30,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Auth(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PaymentGateway(),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
@@ -60,6 +66,8 @@ class MyApp extends StatelessWidget {
           '/verify': (context) => OtpVerify(),
           '/register': (context) => Register(),
           '/productpage': (context) => ProductPage(),
+          '/subcategory': (context) => SubCategoryScreen(),
+          '/productdisplay': (context) => ProductDisplay(),
         },
       ),
     );

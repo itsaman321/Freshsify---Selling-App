@@ -69,10 +69,19 @@ class _MainHomeState extends State<MainHome> {
                 // shrinkWrap: true,
                 children: <Widget>[
                   Container(
+                    width: double.infinity,
+                    height: 100,
+                    padding: EdgeInsets.all(15),
+                    child: Image.asset('assets/icon/logo.png', width: 30),
+                  ),
+                  Container(
                     margin: EdgeInsets.symmetric(vertical: 5),
                     child: CarouselSlider(
-                      options: CarouselOptions(height: 150),
-                      items: [1, 2, 3, 4, 5].map((i) {
+                      options: CarouselOptions(
+                          height: 150,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 2)),
+                      items: [1, 2].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
                             return Container(
@@ -81,11 +90,9 @@ class _MainHomeState extends State<MainHome> {
                               decoration: BoxDecoration(
                                   color: Colors.amber,
                                   borderRadius: BorderRadius.circular(5)),
-                              child: Center(
-                                child: Text(
-                                  'text $i',
-                                  style: TextStyle(fontSize: 16.0),
-                                ),
+                              child: Image.asset(
+                                'assets/img/$i.png',
+                                fit: BoxFit.cover,
                               ),
                             );
                           },
@@ -173,13 +180,18 @@ class _MainHomeState extends State<MainHome> {
                           ),
                         ),
                       ),
-                      Container(
-                        child: Text(
-                          'View All',
-                          style: TextStyle(
-                            color: Color.fromRGBO(249, 100, 0, 1),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/productdisplay');
+                        },
+                        child: Container(
+                          child: Text(
+                            'View All',
+                            style: TextStyle(
+                              color: Color.fromRGBO(249, 100, 0, 1),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),

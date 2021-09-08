@@ -36,7 +36,7 @@ class ProductItem extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Color.fromRGBO(242, 242, 242, 1),
-                  blurRadius: 7,
+                  blurRadius: 4,
                 ),
               ],
             ),

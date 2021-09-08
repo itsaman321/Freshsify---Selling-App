@@ -9,28 +9,34 @@ class Register extends StatelessWidget {
     final email = TextEditingController();
     final password = TextEditingController();
     final phoneNumber = TextEditingController();
+    final cpassword = TextEditingController();
     final address = TextEditingController();
     final dob = TextEditingController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(247, 249, 252, 1.0),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(247, 249, 252, 1),
+        backgroundColor: Colors.white,
         iconTheme: Theme.of(context).iconTheme,
       ),
       body: Container(
-        color: Color.fromRGBO(247, 249, 252, 1),
         padding: EdgeInsets.all(20),
         height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Center(
+              child: Image.asset(
+                'assets/icon/logo.png',
+                width: 70,
+              ),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              
               children: [
                 Text(
                   'Create New Account ',
@@ -54,6 +60,20 @@ class Register extends StatelessWidget {
                     ),
                     focusedBorder: InputBorder.none,
                     hintText: 'Full Name',
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: phoneNumber,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(6),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: InputBorder.none,
+                    hintText: 'Phone Number',
                   ),
                 ),
                 SizedBox(
@@ -88,14 +108,14 @@ class Register extends StatelessWidget {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: phoneNumber,
+                  controller: cpassword,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(6),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: InputBorder.none,
-                    hintText: 'Phone Number',
+                    hintText: 'Confirm Password',
                   ),
                 ),
                 SizedBox(
