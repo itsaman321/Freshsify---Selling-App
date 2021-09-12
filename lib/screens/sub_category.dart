@@ -58,31 +58,30 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                 children: <Widget>[
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(10),
-                    color: Theme.of(context).primaryColor.withOpacity(0.6),
+                    padding: EdgeInsets.all(15),
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
                     child: Text(
                       'Explore By Sub Categories',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black,fontSize:18),
                       textAlign: TextAlign.center,
+                      
                     ),
                   ),
                   
-                  Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                      ),
-                      itemCount: subcat.length,
-                      itemBuilder: (ctx, index) {
-                        return SubcategoryItem(
-                            id: subcat[index].id,
-                            categoryId: subcat[index].categoryId,
-                            name: subcat[index].name,
-                            imageUrl: subcat[index].imageUrl);
-                      },
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 2,
                     ),
+                    itemCount: subcat.length,
+                    itemBuilder: (ctx, index) {
+                      return SubcategoryItem(
+                          id: subcat[index].id,
+                          categoryId: subcat[index].categoryId,
+                          name: subcat[index].name,
+                          imageUrl: subcat[index].imageUrl);
+                    },
                   ),
                 ],
               ),

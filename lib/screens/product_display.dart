@@ -23,17 +23,26 @@ class _ProductDisplayState extends State<ProductDisplay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0,
+        title: Text('Our Products',style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
         iconTheme: Theme.of(context).iconTheme,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.shopping_bag_outlined),
+          ),
+        ],
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 2,vertical: 3),
+        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 3),
         height: MediaQuery.of(context).size.height,
         child: GridView.builder(
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisExtent: 228,
+            mainAxisExtent: 280,
+            mainAxisSpacing: 10,
           ),
           itemCount: products.length,
           itemBuilder: (ctx, index) {

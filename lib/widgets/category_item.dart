@@ -23,11 +23,11 @@ class CategoryItem extends StatelessWidget {
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(3),
                 boxShadow: [
                   BoxShadow(
                     color: Color.fromRGBO(242, 242, 242, 1),
-                    blurRadius: 10,
+                    blurRadius: 7,
                   ),
                 ],
               ),
@@ -38,7 +38,13 @@ class CategoryItem extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            Text(name),
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),

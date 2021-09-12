@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -26,9 +27,30 @@ class Product with ChangeNotifier {
 
 class Products extends ChangeNotifier {
   List<Product> _items = [];
-
+  List<Product> SearchProdList = [];
   List<Product> get items {
     return [..._items];
+  }
+
+  List<Product> favItems = [];
+
+  void toggleFavorite(String prodId) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _items.map((e) {
+      if (e.id == prodId) {
+        if (e.isFavorite == true) {
+          e.isFavorite = false;
+        } else {
+          e.isFavorite = true;
+        }
+      }
+      print(e);
+      favItems.add(e);
+    });
+
+    prefs.setString('fav', json.encode(favItems));
+    print(favItems);
   }
 
   Product getSingleProduct(String prodId) {
@@ -73,6 +95,31 @@ class Products extends ChangeNotifier {
       notifyListeners();
       print(_items);
     }
+  }
+
+  Future searchProduct(String productName) async {
+    final url = Uri.parse('http://freshsify.com/freshsify/search.php');
+    final res = await http.post(url, body: {
+      'prodname': productName,
+    });
+
+    final prodData = json.decode(res.body);
+
+    prodData.forEach((e) {
+      SearchProdList.add(
+        Product(
+          id: e['id'],
+          title: e['title'],
+          price: double.parse(e['price']),
+          category: e['subcategory'],
+          description: e['description'],
+          imageUrl: e['imageurl'],
+          isFavorite: boolResult(double.parse(e['favorite'])),
+          bestSeller: boolResult(double.parse(e['bestseller'])),
+        ),
+      );
+    });
+    print(SearchProdList);
   }
 
   List<Product> get bestSellerItems {

@@ -62,7 +62,7 @@ class _MainHomeState extends State<MainHome> {
               ),
             )
           : Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               height: MediaQuery.of(context).size.height,
               child: ListView(
                 primary: true,
@@ -147,8 +147,7 @@ class _MainHomeState extends State<MainHome> {
                     height: 10,
                   ),
                   Container(
-                    height: 225,
-                    color: Colors.white,
+                    height: 280,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -189,8 +188,8 @@ class _MainHomeState extends State<MainHome> {
                             'View All',
                             style: TextStyle(
                               color: Color.fromRGBO(249, 100, 0, 1),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
                             ),
                           ),
                         ),
@@ -201,8 +200,7 @@ class _MainHomeState extends State<MainHome> {
                     height: 10,
                   ),
                   Container(
-                    height: 225,
-                    color: Colors.white,
+                    height: 280,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,

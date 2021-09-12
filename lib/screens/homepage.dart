@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:freshsify/providers/category.dart';
+import 'package:freshsify/screens/SearchPage.dart';
 import 'package:freshsify/screens/main_home.dart';
-
-import 'package:provider/provider.dart';
 import './cart.dart';
 import './profile.dart';
 import './contact.dart';
@@ -25,22 +22,19 @@ class _HomepageState extends State<Homepage> {
 
   List<Widget> widgets = [
     MainHome(),
+    SearchPage(),
     CartPage(),
     ContactPage(),
-    
-    MainHome(),
     ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      
       bottomNavigationBar: BottomNavigationBar(
-        onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         unselectedIconTheme: IconThemeData(color: Colors.black26),
         selectedIconTheme: IconThemeData(
@@ -48,27 +42,34 @@ class _HomepageState extends State<Homepage> {
         ),
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        iconSize: 30,
-        selectedItemColor: Colors.black,
+        iconSize: 28,
+        selectedItemColor: Theme.of(context).primaryColor,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            activeIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
+            activeIcon: Icon(Icons.search),
+            icon: Icon(Icons.search_outlined),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            icon: Icon(
+              Icons.search_outlined,
+              color: Colors.white,
+            ),
+            label: "Cart",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.phone),
+            activeIcon: Icon(Icons.phone),
+            icon: Icon(Icons.phone_outlined),
             label: 'Phone',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            activeIcon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline),
             label: 'Profile',
           ),
         ],
@@ -76,6 +77,23 @@ class _HomepageState extends State<Homepage> {
       body: SafeArea(
         child: widgets[_selectedIndex],
       ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 8,
+        backgroundColor: Theme.of(context).primaryColor,
+        focusColor: Theme.of(context).primaryColor.withAlpha(2),
+        hoverColor: Colors.orange,
+        child: Icon(
+          Icons.add_shopping_cart_outlined,
+          color: Colors.white,
+        ),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CartPage(),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

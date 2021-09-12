@@ -52,7 +52,7 @@ class CategoryProvider with ChangeNotifier {
               imageUrl: e['imageUrl'],
               categoryId: e['category_id']));
         });
-        print(_subcategories);
+        
       } else {
         return;
       }

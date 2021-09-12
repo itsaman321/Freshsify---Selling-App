@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:freshsify/screens/product_display.dart';
+import 'package:freshsify/screens/searchResults.dart';
 import 'package:freshsify/screens/sub_category.dart';
+import 'package:freshsify/screens/sub_category_page.dart';
 import './screens/product_page.dart';
 import '../providers/category.dart';
 import './providers/auth.dart';
@@ -31,7 +33,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Auth(),
         ),
-        
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
@@ -46,8 +47,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primaryColor: Color.fromRGBO(249, 100, 0, 1),
-          fontFamily: "Quicksand",
+          fontFamily: "Google-Sans",
           textTheme: TextTheme(
+            
             headline1: TextStyle(
                 fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black),
             headline2: TextStyle(fontSize: 15),
@@ -66,6 +68,8 @@ class MyApp extends StatelessWidget {
           '/productpage': (context) => ProductPage(),
           '/subcategory': (context) => SubCategoryScreen(),
           '/productdisplay': (context) => ProductDisplay(),
+          '/subcategorypage': (context) => SubCategoryPage(),
+          '/searchResult': (context) => SearchResult(),
         },
       ),
     );
