@@ -153,15 +153,6 @@ class _CartPageState extends State<CartPage> {
           initOrder(totalAmount, user['fullname'], user['phonenumber'],
               'New Order at Freshsify', user['email'], 'Paytm', cartItems);
 
-          // Provider.of<PaymentGateway>(context, listen: false).initOrder(
-          //     totalAmount,
-          //     user['fullname'],
-          //     user['phonenumber'],
-          //     'New Order at Freshsify',
-          //     user['email'],
-          //     'Paytm',
-          //     cartItems);
-
         } else {
           Navigator.of(context).pushNamed('/register');
           Fluttertoast.showToast(msg: "Please Login First to Continue");
@@ -207,6 +198,23 @@ class _CartPageState extends State<CartPage> {
     cartItems = Provider.of<Cart>(context).items;
     totalAmount = Provider.of<Cart>(context).totalAmount;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(
+          'Cart',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+        iconTheme: Theme.of(context).iconTheme,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.home_outlined),
+          ),
+        ],
+      ),
       body: Stack(
         alignment: AlignmentDirectional.bottomEnd,
         children: [
@@ -214,39 +222,55 @@ class _CartPageState extends State<CartPage> {
             padding: EdgeInsets.all(10),
             height: MediaQuery.of(context).size.height,
             child: cartItems.isEmpty
-                ? Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 300,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://i.pinimg.com/originals/2e/ac/fa/2eacfa305d7715bdcd86bb4956209038.png'),
-                                fit: BoxFit.cover),
-                          ),
-                        )
-                      ],
+                ? Center(
+                    child: Container(
+                      height: 300,
+                      width: 300,
+                      child: Image.asset(
+                        'assets/img/no_item.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   )
                 : Consumer<Cart>(
                     builder: (context, child, value) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return CartItem(
-                            id: cartItems.values.toList()[index].id,
-                            prodId: cartItems.keys.toList()[index],
-                            prodImage: cartItems.values.toList()[index].prodImage,
-                            title: cartItems.values.toList()[index].title,
-                            quantity: cartItems.values.toList()[index].quantity,
-                            price: cartItems.values.toList()[index].price,
-                          );
-                        },
-                        itemCount: cartItems.values.toList().length,
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return CartItem(
+                                id: cartItems.values.toList()[index].id,
+                                prodId: cartItems.keys.toList()[index],
+                                prodImage:
+                                    cartItems.values.toList()[index].prodImage,
+                                title: cartItems.values.toList()[index].title,
+                                quantity:
+                                    cartItems.values.toList()[index].quantity,
+                                price: cartItems.values.toList()[index].price,
+                              );
+                            },
+                            itemCount: cartItems.values.toList().length,
+                          ),
+                          TextButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/coupons');
+                            },
+                            icon: Icon(
+                              Icons.local_offer_outlined,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            label: Text(
+                              "Apply discount code",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -302,7 +326,8 @@ class _CartPageState extends State<CartPage> {
                           Text(
                             'Proceed to Checkout',
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.w700),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
                             width: 5,

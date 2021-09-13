@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshsify/screens/coupons_page.dart';
 
 import 'package:freshsify/screens/product_display.dart';
 import 'package:freshsify/screens/searchResults.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           '/productdisplay': (context) => ProductDisplay(),
           '/subcategorypage': (context) => SubCategoryPage(),
           '/searchResult': (context) => SearchResult(),
+          '/coupons': (context) => CouponsScreen(),
         },
       ),
     );

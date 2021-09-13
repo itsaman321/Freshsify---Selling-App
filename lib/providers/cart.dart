@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CartItem {
   final String id;
@@ -16,11 +18,27 @@ class CartItem {
   });
 }
 
+class Coupon {
+  final String id;
+  final String displayValue;
+  final String title;
+  final double value;
+  final String validity;
+  Coupon(
+      {required this.id,
+      required this.displayValue,
+      required this.title,
+      required this.value,
+      required this.validity});
+}
+
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
   Map<String, CartItem> get items {
     return {..._items};
   }
+
+  List<Coupon> coupons = [];
 
   void addItem(String productId, double price, String title, String prodImage) {
     if (_items.containsKey(productId)) {
@@ -72,14 +90,34 @@ class Cart with ChangeNotifier {
           price: existingItem.price,
           quantity: existingItem.quantity - 1),
     );
-    _items.removeWhere((productId, existingItem)=> existingItem.quantity == 0);
+    _items.removeWhere((productId, existingItem) => existingItem.quantity == 0);
     notifyListeners();
+  }
+
+  Future getCoupons() async {
+    coupons = [];
+    final url = Uri.parse('http://freshsify.com/freshsify/getCoupons.php');
+    final response = await http.post(url);
+    final couponData;
+
+    couponData = json.decode(response.body);
+
+    couponData.forEach((e) {
+      coupons.add(Coupon(
+        id: e['id'],
+        displayValue: e['displayValue'],
+        title: e['title'],
+        value: double.parse(e['value']),
+        validity: e['validity'],
+      ));
+    });
   }
 
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
-      total += double.parse((cartItem.price).toStringAsFixed(3)) * cartItem.quantity;
+      total +=
+          double.parse((cartItem.price).toStringAsFixed(3)) * cartItem.quantity;
     });
     return total;
   }
