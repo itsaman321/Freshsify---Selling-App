@@ -89,11 +89,11 @@ class _ProductPageState extends State<ProductPage> {
                       ],
                     ),
                     Text(
-                      '\$${double.parse(
+                      'Rs. ${double.parse(
                         productDetails.price.toString(),
                       ).toStringAsFixed(2)}',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.lightGreen,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

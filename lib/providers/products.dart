@@ -103,6 +103,20 @@ class Products extends ChangeNotifier {
       'prodname': productName,
     });
 
+    List searchKeyword = [];
+
+    searchKeyword.add(productName);
+
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('searchList') == null) {
+      prefs.setString('searchList', json.encode(searchKeyword));
+    } else {
+      searchKeyword = json.decode(prefs.getString('searchList').toString());
+      searchKeyword.add(productName);
+      prefs.setString('searchList', json.encode(searchKeyword));
+    }
+
     final prodData = json.decode(res.body);
 
     prodData.forEach((e) {

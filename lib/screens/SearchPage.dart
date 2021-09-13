@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:freshsify/providers/products.dart';
+import 'package:freshsify/widgets/recent_search__item.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -9,9 +12,30 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchKey = TextEditingController();
+  List searchList = [];
   var onClickHandler = false;
+  var isLoading = true;
+
+  @override
+  void didChangeDependencies() async {
+    setState(() {
+      isLoading = true;
+    });
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('searchList') == null) {
+    } else {
+      searchList = json.decode(prefs.getString('searchList').toString());
+    }
+    setState(() {
+      isLoading = false;
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(searchList);
     return Container(
       height: double.infinity,
       padding: EdgeInsets.all(10),
@@ -23,12 +47,13 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
+                height: 40,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(Icons.search_outlined),
                     SizedBox(
@@ -53,10 +78,6 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.cancel),
-                    ),
                   ],
                 ),
               ),
@@ -65,6 +86,7 @@ class _SearchPageState extends State<SearchPage> {
                       onPressed: () async {
                         await Provider.of<Products>(context, listen: false)
                             .searchProduct(searchKey.text);
+                        setState(() {});
                         Navigator.of(context).pushNamed('/searchResult');
                       },
                       child: Text(
@@ -92,37 +114,20 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.timer_outlined,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Product name'),
-                        ],
+              child: isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
                       ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
+                    )
+                  : ListView.builder(
+                      itemBuilder: (ctx, index) {
+                        return RecentItem(
+                          title: searchList[index].toString(),
+                        );
+                      },
+                      itemCount: searchList.length,
+                    ))
         ],
       ),
     );

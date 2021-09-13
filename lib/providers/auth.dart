@@ -15,8 +15,6 @@ class Auth with ChangeNotifier {
       'email': email,
       'password': password,
       'phonenumber': phoneNumber,
-      'address': address,
-      'dob': dob,
     };
 
     final url = Uri.parse('http://freshsify.com/freshsify/register.php');
