@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +21,11 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   final user = {};
-  var totalAmount;
+  double totalAmount = 0.0;
   Map cartItems = {};
+  double discount = 0.0;
+  double discountAmount = 0.0;
+  double grandTotal = 0.0;
 
   final _razorpay = Razorpay();
 
@@ -152,7 +158,6 @@ class _CartPageState extends State<CartPage> {
           Navigator.pop(context);
           initOrder(totalAmount, user['fullname'], user['phonenumber'],
               'New Order at Freshsify', user['email'], 'Paytm', cartItems);
-
         } else {
           Navigator.of(context).pushNamed('/register');
           Fluttertoast.showToast(msg: "Please Login First to Continue");
@@ -194,9 +199,26 @@ class _CartPageState extends State<CartPage> {
   }
 
   @override
+  void didChangeDependencies() async {
+    discount = 0.0;
+    grandTotal = totalAmount;
+    totalAmount = Provider.of<Cart>(context).totalAmount;
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      discount =
+          double.parse(ModalRoute.of(context)!.settings.arguments.toString());
+      print(discount);
+    }
+    setState(() {
+      discountAmount = (discount / 100) * totalAmount;
+      totalAmount -= (discount / 100) * totalAmount;
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     cartItems = Provider.of<Cart>(context).items;
-    totalAmount = Provider.of<Cart>(context).totalAmount;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -215,136 +237,193 @@ class _CartPageState extends State<CartPage> {
           ),
         ],
       ),
-      body: Stack(
-        alignment: AlignmentDirectional.bottomEnd,
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height,
-            child: cartItems.isEmpty
-                ? Center(
-                    child: Container(
-                      height: 300,
-                      width: 300,
-                      child: Image.asset(
-                        'assets/img/no_item.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  )
-                : Consumer<Cart>(
-                    builder: (context, child, value) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return CartItem(
-                                id: cartItems.values.toList()[index].id,
-                                prodId: cartItems.keys.toList()[index],
-                                prodImage:
-                                    cartItems.values.toList()[index].prodImage,
-                                title: cartItems.values.toList()[index].title,
-                                quantity:
-                                    cartItems.values.toList()[index].quantity,
-                                price: cartItems.values.toList()[index].price,
-                              );
-                            },
-                            itemCount: cartItems.values.toList().length,
-                          ),
-                          TextButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/coupons');
-                            },
-                            icon: Icon(
-                              Icons.local_offer_outlined,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            label: Text(
-                              "Apply discount code",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: cartItems.isEmpty
+            ? Center(
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  child: Image.asset(
+                    'assets/img/no_item.png',
+                    fit: BoxFit.contain,
                   ),
-          ),
-          Container(
-            child: Container(
-              margin: EdgeInsets.all(5),
-              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
-              width: double.infinity,
-              height: 55,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+                ),
+              )
+            : Consumer<Cart>(
+                builder: (context, child, value) {
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        'Total Amount',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12),
+                      discount == 0.0
+                          ? Container()
+                          : Container(
+                              width: double.infinity,
+                              color: Colors.orangeAccent,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2, horizontal: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Rs ${discountAmount.toString()} Discount Availed !',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  TextButton.icon(
+                                    icon: Icon(
+                                      Icons.remove_circle,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        discountAmount = 0.0;
+                                        discount = 0.0;
+                                      });
+                                      Navigator.of(context)
+                                          .popAndPushNamed('/cart');
+                                    },
+                                    label: Text(
+                                      'Remove Coupon',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                      Container(
+                        height: 100,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 3, horizontal: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Total Amount',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16),
+                                ),
+                                Text(
+                                  '\Rs. ${Provider.of<Cart>(context).totalAmount.toString()}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            discount == 0.0
+                                ? Container()
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Discount ',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      Text(
+                                        '\- \Rs.${discountAmount.toString()}',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Grand Total',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  '\Rs. ${totalAmount.toString()}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        '\$ ${Provider.of<Cart>(context).totalAmount.toString()}',
-                        style: TextStyle(
-                            color: Colors.white,
+                      InkWell(
+                        onTap: () {
+                          showAlertDialog(context);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          width: double.infinity,
+                          padding: EdgeInsets.all(14),
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Proceed to Checkout',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).popAndPushNamed('/coupons');
+                        },
+                        icon: Icon(
+                          Icons.local_offer_outlined,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        label: Text(
+                          "Apply discount code",
+                          style: TextStyle(
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            fontSize: 20),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return CartItem(
+                              id: cartItems.values.toList()[index].id,
+                              prodId: cartItems.keys.toList()[index],
+                              prodImage:
+                                  cartItems.values.toList()[index].prodImage,
+                              title: cartItems.values.toList()[index].title,
+                              quantity:
+                                  cartItems.values.toList()[index].quantity,
+                              price: cartItems.values.toList()[index].price,
+                            );
+                          },
+                          itemCount: cartItems.values.toList().length,
+                        ),
                       ),
                     ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (cartItems.isNotEmpty) {
-                        showAlertDialog(context);
-                      } else {
-                        SnackBar snackBar = SnackBar(
-                          content:
-                              Text('Please Add atleast Single Item to Cart !'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Text(
-                            'Proceed to Checkout',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                  );
+                },
               ),
-            ),
-          ),
-        ],
       ),
     );
   }

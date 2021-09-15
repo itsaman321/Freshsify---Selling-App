@@ -3,7 +3,7 @@ import 'package:freshsify/screens/SearchPage.dart';
 import 'package:freshsify/screens/main_home.dart';
 import './cart.dart';
 import './profile.dart';
-import './contact.dart';
+import 'history.dart';
 
 // ignore: must_be_immutable
 class Homepage extends StatefulWidget {
@@ -24,14 +24,32 @@ class _HomepageState extends State<Homepage> {
     MainHome(),
     SearchPage(),
     CartPage(),
-    ContactPage(),
+    HistoryPage(),
     ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: _selectedIndex != 3
+          ? null
+          : AppBar(
+              elevation: 0,
+              title: Text(
+                'Order Summary',
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.white,
+              iconTheme: Theme.of(context).iconTheme,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.home_outlined),
+                ),
+              ],
+            ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
@@ -63,9 +81,9 @@ class _HomepageState extends State<Homepage> {
             label: "Cart",
           ),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.phone),
-            icon: Icon(Icons.phone_outlined),
-            label: 'Phone',
+            activeIcon: Icon(Icons.history),
+            icon: Icon(Icons.history_outlined),
+            label: 'Orders',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.person),

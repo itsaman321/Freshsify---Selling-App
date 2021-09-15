@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:freshsify/providers/orders.dart';
+import 'package:freshsify/screens/cart.dart';
 import 'package:freshsify/screens/coupons_page.dart';
 
 import 'package:freshsify/screens/product_display.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
           create: (context) => Auth(),
         ),
         ChangeNotifierProvider(
+          create: (context) => Orders(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
         ChangeNotifierProvider(
@@ -50,7 +55,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromRGBO(249, 100, 0, 1),
           fontFamily: "Google-Sans",
           textTheme: TextTheme(
-            
             headline1: TextStyle(
                 fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black),
             headline2: TextStyle(fontSize: 15),
@@ -72,6 +76,7 @@ class MyApp extends StatelessWidget {
           '/subcategorypage': (context) => SubCategoryPage(),
           '/searchResult': (context) => SearchResult(),
           '/coupons': (context) => CouponsScreen(),
+          '/cart': (context) => CartPage(),
         },
       ),
     );

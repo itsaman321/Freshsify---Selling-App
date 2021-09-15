@@ -38,6 +38,8 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  double discountAmount = 0.0;
+
   List<Coupon> coupons = [];
 
   void addItem(String productId, double price, String title, String prodImage) {
@@ -119,6 +121,7 @@ class Cart with ChangeNotifier {
       total +=
           double.parse((cartItem.price).toStringAsFixed(3)) * cartItem.quantity;
     });
+
     return total;
   }
 

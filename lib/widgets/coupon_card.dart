@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:freshsify/providers/cart.dart';
+import 'package:provider/provider.dart';
 
 class CouponsCard extends StatelessWidget {
   final String id;
@@ -40,27 +43,15 @@ class CouponsCard extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Container(
-                        child: Center(
-                            child: Text(
-                          "123ABC",
-                          style: TextStyle(color: Colors.grey),
-                        )),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
                       SizedBox(
                         width: 10,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Fluttertoast.showToast(msg: 'Coupon Applied !');
+                          Navigator.of(context)
+                              .popAndPushNamed('/cart', arguments: value);
+                        },
                         child: Container(
                           child: Center(
                             child: Text(
