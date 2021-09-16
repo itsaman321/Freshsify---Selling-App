@@ -40,52 +40,60 @@ class CartItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  width: 60,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(prodImage),
-                      fit: BoxFit.cover,
-                    ),
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        blurRadius: 10,
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed('/productpage', arguments: prodId);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 60,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(prodImage),
+                        fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 16,),
-                      ),
-                      Text(
-                        double.parse(price.toString()).toStringAsFixed(2),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight:FontWeight.w600,
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          blurRadius: 10,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          double.parse(price.toString()).toStringAsFixed(2),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
               child: Column(
@@ -93,25 +101,24 @@ class CartItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Provider.of<Cart>(context, listen: false)
-                              .decreaseQuanity(prodId);
-                        },
-                        child: Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      Container(
+                        width: 30,
+                        height: 30,
+                        color: Theme.of(context).primaryColor.withOpacity(0.2),
+                        child: TextButton(
                           child: Text(
                             '-',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold),
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
+                          onPressed: () {
+                            Provider.of<Cart>(context, listen: false)
+                                .decreaseQuanity(prodId);
+                          },
                         ),
                       ),
                       Container(
@@ -120,23 +127,19 @@ class CartItem extends StatelessWidget {
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 5),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Provider.of<Cart>(context, listen: false)
-                              .increaseQuanity(prodId);
-                        },
-                        child: Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          child: Text(
-                            '+',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(100),
+                      Container(
+                        width: 30,
+                        height: 30,
+                        color: Theme.of(context).primaryColor.withOpacity(0.2),
+                        child: IconButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            Provider.of<Cart>(context, listen: false)
+                                .increaseQuanity(prodId);
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            size: 25,
                           ),
                         ),
                       ),
