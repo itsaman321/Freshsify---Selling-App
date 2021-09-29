@@ -33,7 +33,9 @@ class _ProductPageState extends State<ProductPage> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/cart');
+            },
             icon: Icon(
               Icons.shopping_cart,
               color: Theme.of(context).primaryColor,

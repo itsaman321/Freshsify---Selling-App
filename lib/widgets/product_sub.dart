@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../providers/products.dart';
 import '../providers/cart.dart';
@@ -100,6 +101,7 @@ class SubCategoryItem extends StatelessWidget {
                   onPressed: () {
                     Provider.of<Cart>(context, listen: false)
                         .addItem(id, price, title, imageUrl);
+                    Fluttertoast.showToast(msg: 'Added to Cart');
                   },
                   icon: Icon(
                     Icons.shopping_cart_sharp,

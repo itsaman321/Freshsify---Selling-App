@@ -16,33 +16,44 @@ class SubcategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/subcategorypage',arguments: id);
+        Navigator.of(context).pushNamed('/subcategorypage', arguments: id);
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        width: 135,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
+        ),
+        margin: EdgeInsets.all(3),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              height: 130,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(242, 242, 242, 1),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              height: 140,
-              width: 140,
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.contain,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            Text(name),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                name,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ],
         ),
       ),

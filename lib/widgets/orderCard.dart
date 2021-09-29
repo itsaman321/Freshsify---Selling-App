@@ -1,4 +1,15 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:freshsify/providers/cart.dart';
+import 'package:freshsify/providers/orders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/customer.dart';
+import '../models/supplier.dart';
+import '../models/invoice.dart';
+import '../api/pdf_invoice_api.dart';
+import '../api/pdf_api.dart';
+import 'package:provider/provider.dart';
 
 class OrderCard extends StatefulWidget {
   final String id;
@@ -21,7 +32,6 @@ class OrderCard extends StatefulWidget {
 }
 
 class _OrderCardState extends State<OrderCard> {
-  
   var isDelivered = false;
 
   void delivery(String stat) {
@@ -115,17 +125,67 @@ class _OrderCardState extends State<OrderCard> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               ElevatedButton(
-                child: Text('Cancel Order'),
-                onPressed: () {},
+                child: Text('Generate Invoice'),
+                onPressed: () {
+                  generateInvoice();
+                },
               ),
               ElevatedButton(
                 child: Text('Contact Us'),
-                onPressed: () {},
+                onPressed: () {
+                  // generateInvoice();
+                },
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  void generateInvoice() async {
+    final date = DateTime.now();
+
+    final prefs = await SharedPreferences.getInstance();
+    final user = jsonDecode(prefs.getString('user').toString());
+    final url =
+        Uri.parse('http://freshsify.com/freshsify/getOrderedProducts.php');
+
+    final response = await http.post(url, body: {
+      'orderid': widget.id,
+    });
+
+    final productData = jsonDecode(response.body);
+    List<InvoiceItem> productList = [];
+
+    productData.forEach((e) {
+      productList.add(InvoiceItem(
+        description: e['title'],
+        date: DateTime.now(),
+        quantity: int.parse(e['quantity']),
+        unitPrice: double.parse(e['price']),
+      ));
+    });
+
+    print(productData);
+    final invoice = Invoice(
+      supplier: Supplier(
+        name: 'Freshsify',
+        address: 'Sarah Street 9, Beijing, China',
+        paymentInfo: 'https://paypal.me/freshsify',
+      ),
+      customer: Customer(
+        name: user['fullname'],
+        address: user['email'],
+      ),
+      info: InvoiceInfo(
+        date: date,
+        description: 'order Id : ${widget.id}',
+      ),
+      items: productList,
+    );
+
+    final pdfFile = await PdfInvoiceApi.generate(invoice);
+    PdfApi.openFile(pdfFile);
   }
 }

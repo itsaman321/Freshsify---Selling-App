@@ -98,6 +98,7 @@ class Products extends ChangeNotifier {
   }
 
   Future searchProduct(String productName) async {
+    SearchProdList = [];
     final url = Uri.parse('http://freshsify.com/freshsify/search.php');
     final res = await http.post(url, body: {
       'prodname': productName,

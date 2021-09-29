@@ -56,6 +56,5 @@ class Orders with ChangeNotifier {
         ),
       );
     });
-    print(_orders);
   }
 }

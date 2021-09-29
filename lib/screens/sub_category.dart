@@ -68,20 +68,23 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     ),
                   ),
                   
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 2,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 1,
+                      ),
+                      itemCount: subcat.length,
+                      itemBuilder: (ctx, index) {
+                        return SubcategoryItem(
+                            id: subcat[index].id,
+                            categoryId: subcat[index].categoryId,
+                            name: subcat[index].name,
+                            imageUrl: subcat[index].imageUrl);
+                      },
                     ),
-                    itemCount: subcat.length,
-                    itemBuilder: (ctx, index) {
-                      return SubcategoryItem(
-                          id: subcat[index].id,
-                          categoryId: subcat[index].categoryId,
-                          name: subcat[index].name,
-                          imageUrl: subcat[index].imageUrl);
-                    },
                   ),
                 ],
               ),

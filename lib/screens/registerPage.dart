@@ -61,7 +61,7 @@ class Register extends StatelessWidget {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(6),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(2),
                             ),
                             focusedBorder: InputBorder.none,
                             hintText: 'Full Name',
@@ -78,7 +78,7 @@ class Register extends StatelessWidget {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(6),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(2),
                             ),
                             focusedBorder: InputBorder.none,
                             hintText: 'Phone Number',
@@ -95,7 +95,7 @@ class Register extends StatelessWidget {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(6),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(2),
                             ),
                             focusedBorder: InputBorder.none,
                             hintText: 'Email',
@@ -112,7 +112,7 @@ class Register extends StatelessWidget {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(6),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(2),
                             ),
                             focusedBorder: InputBorder.none,
                             hintText: 'Password',
@@ -129,7 +129,7 @@ class Register extends StatelessWidget {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(6),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(2),
                             ),
                             focusedBorder: InputBorder.none,
                             hintText: 'Confirm Password',
